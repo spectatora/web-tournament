@@ -81,14 +81,6 @@ class User implements PasswordAwareInterface
     }
 
     /**
-     * @return the $phone
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
      * @param field_type $id
      */
     public function setId($id)
@@ -110,42 +102,6 @@ class User implements PasswordAwareInterface
     public function setEmail($email)
     {
         $this->email = $email;
-    }
-
-    /**
-     * @param field_type $phone
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-    }
-
-    /**
-     * @return the $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param field_type $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto($photo)
-    {
-        if(isset($photo['tmp_name'])) {
-            $this->photo = $photo['tmp_name'];
-        }
     }
 
     /**

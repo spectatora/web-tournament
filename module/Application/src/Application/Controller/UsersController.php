@@ -43,7 +43,7 @@ class UsersController extends AbstractActionController
 
             // @todo: upon successful validation store additional information about him in the auth storage
 
-            $this->flashmessenger()->addSuccessMessage(sprintf('Welcome %s. You are now logged in.',$user->getName()));
+            $this->flashmessenger()->addSuccessMessage(sprintf('Welcome %s. You are now logged in.',$user->getEmail()));
 
             print 'success'; die;
             return $this->redirect()->toRoute('user/default', array (

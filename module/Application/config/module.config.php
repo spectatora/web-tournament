@@ -116,37 +116,7 @@ return array(
             ),
         ),
     ),
-    
-    /*
     'doctrine' => array(
-    		'entity_path' => array (
-    				__DIR__ . '/../src/Application/Model/Entity/',
-    		),
-    		'initializers' => array (
-    				// add here the list of initializers for Doctrine 2 entities..
-    				'User\Service\Initializer\Password'
-    		),
-    ),
-    */
-    
-    'doctrine' => array(
-    /*
-    		'driver' => array(
-    				'application_entities' => array(
-    						'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-    						'cache' => 'array',
-    						'paths' => array(__DIR__ . '/../src/Application/Model/Entity')
-    				),
-    
-    				'orm_default' => array(
-    						'drivers' => array(
-    								'Application\Model\Entity' => 'application_entities'
-    						)
-    				),
-    				
-    		),
-    		*/
-    		
     		'entity_path' => array (
 	                __DIR__ . '/../src/Application/Model/Entity/',
 	        ),
