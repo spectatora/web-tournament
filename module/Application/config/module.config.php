@@ -21,6 +21,16 @@ return array(
                     ),
                 ),
             ),
+            'deniedLogin' => array(
+            		'type' => 'Zend\Mvc\Router\Http\Literal',
+            		'options' => array(
+            				'route'    => '/deniedLogin',
+            				'defaults' => array(
+            						'controller' => 'Application\Controller\Account',
+            						'action'     => 'denied',
+            				),
+            		),
+             ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -90,7 +100,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Users' => 'Application\Controller\UsersController'
+            'Application\Controller\Users' => 'Application\Controller\UsersController',
+            'Application\Controller\Account' => 'Application\Controller\AccountController'
         ),
     ),
     'view_manager' => array(

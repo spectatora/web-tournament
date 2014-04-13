@@ -45,17 +45,15 @@ class UsersController extends AbstractActionController
 
             $this->flashmessenger()->addSuccessMessage(sprintf('Welcome %s. You are now logged in.',$user->getEmail()));
 
-            print 'success'; die;
-            return $this->redirect()->toRoute('user/default', array (
+            return $this->redirect()->toRoute('application', array (
                     'controller' => 'account',
                     'action'     => 'me',
             ));
         } else {
-            $event = new EventManager('user');
-            $event->trigger('log-fail', $this, array('username'=> $username));
-            
-            print 'log failed';
-            return array('errors' => $result->getMessages());
+           return $this->redirect()->toRoute('deniedLogin', array (
+                    'controller' => 'account',
+                    'action'     => 'denied',
+            ));
         }
     }
 }
