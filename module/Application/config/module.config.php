@@ -1,4 +1,5 @@
 <?php
+use Application\Authentication\Adapter;
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -60,6 +61,21 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'factories' => array(
+        	'auth' 	       => 'Application\Service\Factory\Authentication',
+        	'password-adapter' => 'Application\Service\Factory\PasswordAdapter',
+        	'entity-manager'   => 'Application\Service\Factory\EntityManager',
+        ),
+        'initializers' => array (
+        		'Application\Service\Initializer\Password'
+        ),
+        'invokables' => array(
+        	'auth-adapter' 	=> 'Application\Authentication\Adapter',
+        	'user-entity'       => 'Application\Model\Entity\User',
+        ),
+        'shared' => array(
+        		'user-entity' => false,
+        ),
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -73,7 +89,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Users' => 'Application\Controller\UsersController'
         ),
     ),
     'view_manager' => array(
@@ -99,19 +116,54 @@ return array(
             ),
         ),
     ),
+    
+    /*
     'doctrine' => array(
+    		'entity_path' => array (
+    				__DIR__ . '/../src/Application/Model/Entity/',
+    		),
+    		'initializers' => array (
+    				// add here the list of initializers for Doctrine 2 entities..
+    				'User\Service\Initializer\Password'
+    		),
+    ),
+    */
+    
+    'doctrine' => array(
+    /*
     		'driver' => array(
     				'application_entities' => array(
     						'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
     						'cache' => 'array',
-    						'paths' => array(__DIR__ . '/../src/Application/Entity')
+    						'paths' => array(__DIR__ . '/../src/Application/Model/Entity')
     				),
     
     				'orm_default' => array(
     						'drivers' => array(
-    								'Application\Entity' => 'application_entities'
+    								'Application\Model\Entity' => 'application_entities'
     						)
-    				)
-    		)
+    				),
+    				
+    		),
+    		*/
+    		
+    		'entity_path' => array (
+	                __DIR__ . '/../src/Application/Model/Entity/',
+	        ),
+	        'initializers' => array(
+	        		'Application\Service\Initializer\Password'
+	        ),
     ),
+    'db' => array(
+    		'driver' => 'Mysqli', //The database driver. Mysqli, Sqlsrv, Pdo_Sqlite, Pdo_Mysql, Pdo=OtherPdoDriver
+    		'database' => 'sampleProject', // 	generally required 	the name of the database (schema)
+    		'username' => 'root', // generally required 	the connection username
+    		'password' => '', // 	generally required 	the connection password
+    		'hostname' => 'localhost', // not generally required 	the IP address or hostname to connect to
+    		// 'port' => 1234,  	// not generally required 	the port to connect to (if applicable)
+    		'charset' => 'utf8',  //	not generally required 	the character set to use
+    		'options' => array (
+    				'buffer_results' => 0
+    		)
+    )
 );
