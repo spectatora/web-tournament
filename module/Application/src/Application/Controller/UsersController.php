@@ -56,4 +56,9 @@ class UsersController extends AbstractActionController
             ));
         }
     }
+    
+    public function deniedAction()
+    {
+    	return array();
+    }
 }

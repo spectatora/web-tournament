@@ -60,6 +60,49 @@ class Module
     	$services = $event->getApplication()->getServiceManager();
     	 
     	$auth = $services->get('auth');
+    	$acl      = $services->get('acl');
+    	$config = $services->get('config');
+    	
+    	$parts           = explode('\\', $namespace);
+    	$moduleNamespace = $parts[0];
+    	
+    	// get the role of the current user
+    	$currentUser = $services->get('user');
+    	$role = $currentUser->getRole();
+    	
+    	$aclModules = $config['acl']['modules'];
+    	if (!empty($aclModules) && !in_array($moduleNamespace, $aclModules)) {
+    		return;
+    	}
+    	 
+    	
+    	$resourceAliases = $config['acl']['resource_aliases'];
+    	if (isset($resourceAliases[$controller])) {
+    		$resource = $resourceAliases[$controller];
+    	} else {
+    		$resource = strtolower(substr($controller, strrpos($controller,'\\')+1));
+    	}
+    	
+    	if(!$acl->hasResource($resource)) {
+    		$acl->addResource($resource);
+    	}
+    	try {
+    		if($acl->isAllowed($role, $resource, $action)) {
+    			return;
+    		}
+    	} catch(AclException $ex) {
+    		print 'ninja';die;
+    	}
+    	
+    	
+    	$response = $event->getResponse();
+    	$response->setStatusCode(403);
+    	
+    	$match->setParam('controller', 'Application\Controller\Users');
+    	$match->setParam('action', 'denied');
+    	
+    	/*
+    	
     	if (!$auth->hasIdentity()) {
     		// Set the response code to HTTP 401: Auth Required
     		$response = $event->getResponse();
@@ -68,5 +111,6 @@ class Module
     		$match->setParam('controller', 'Application\Controller\Users');
     		$match->setParam('action', 'login');
     	}
+    	*/
     }
 }
