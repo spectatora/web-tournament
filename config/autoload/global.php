@@ -12,5 +12,8 @@
  */
 
 return array(
-    // ...
+    'module_layouts' => array(
+        'Application' => 'layout/layout',
+        'Admin' => 'admin/layout'
+    ),
 );
