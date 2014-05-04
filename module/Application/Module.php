@@ -51,9 +51,9 @@ class Module
     	$action = $match->getParam('action');
     	$namespace = $match->getParam('__NAMESPACE__');
     	
+    	
     	//check to work only for the current module
     	if (strpos($namespace,__NAMESPACE__)!==0) {
-    	
     		return;
     	}
     	 
@@ -86,6 +86,7 @@ class Module
     	if(!$acl->hasResource($resource)) {
     		$acl->addResource($resource);
     	}
+    	
     	try {
     		if($acl->isAllowed($role, $resource, $action)) {
     			return;

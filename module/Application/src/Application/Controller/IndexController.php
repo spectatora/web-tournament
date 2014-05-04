@@ -18,70 +18,41 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-    	error_reporting(E_ALL);
-    	ini_set('display_errors', true);
+    	//error_reporting(E_ALL);
+    	//ini_set('display_errors', true);
+    	
+    	$contactData = array(
+    		"address" => 'гр. Велико Търново, ул. "Арх. Георги Козаров" № 3',
+    		"phones" => array(
+    			0 => array(
+    				"phoneHolder" => 'Факултет “Математика и информатика”',
+    			    "phoneNumber" => '062/ 600 461'
+    			),
+    				1 => array(
+    						"phoneHolder" => 'Организационен комитет',
+    						"phoneNumber" => '0887726163'
+    				),
+    				2 => array(
+    						"phoneHolder" => 'Организационен комитет',
+    						"phoneNumber" => '0887718784'
+    				)
+    		),
+    	   "emails" => array(
+    	   		"math@dev-vt.net",
+    	   		"mat_turnir@uni-vt.bg"
+    		)
+    	);
     	
     	
     	$entityManager = $this->serviceLocator->get('entity-manager');
-    	$userEntityClassName = get_class($this->serviceLocator->get('user-entity'));
-    	$repository = $entityManager->getRepository($userEntityClassName);
-    	 
-    	$areas = $repository->findAll();
+    	//$userEntityClassName = get_class($this->serviceLocator->get('user-entity'));
+    	$optionsEntityClassName = get_class($this->serviceLocator->get('options-entity'));
     	
-    	print ' in here';
-    	var_dump($areas);
+    	$repository = $entityManager->getRepository($optionsEntityClassName);
+    	//$users = $repository->findBy(array('optionName' => 'contactData'));
     	
-    	die;
-    	$entityManager = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    	$userEntityClassName = get_class($this->serviceLocator->get('user-entity'));
+    	$contactData = $repository->findOneBy(array('optionName' => 'contactData'));
     	
-    	$userRepository = $entityManager->getRepository($userEntityClassName);
-    	print_r($userRepository); die;
-    	
-    	
-    	
-    	$entityManager = $this->serviceLocator->get('Doctrine\ORM\EntityManager');
-    	$userEntity = $this->serviceLocator->get('user-entity');
-    	
-    	$userEntity->setEmail("admin@tournament.bg");
-    	$userEntity->setPassword("123456");
-    	$userEntity->setRole("admin");
-    	
-    	//$entityManager->persist($userEntity);
-    	//$entityManager->flush();
-    	
-    	var_dump($userEntity);die;
-    	
-    	
-    	$bcrypt = new Bcrypt(array(
-	
-'salt' => '1234567890123456',
-	
-'cost' => 16
-));
-$start = microtime(true);
-$password = $bcrypt->create('password');
-$end = microtime(true);
-printf ("Password : %s\n", $password);
-printf ("Exec. time: %.2f\n", $end-$start); die;
-    	
-    	
-    	$objectManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-    	$repository = $objectManager->getRepository('Application\Entity\Areas');
-    	
-    	$areas = $repository->findAll();
-    	
-    	
-    	
-    	$areasEntity = new \Application\Entity\Areas();
-    	
-    	$anotationBuilder = new AnnotationBuilder($objectManager);
-    	$form  = $anotationBuilder->createForm($areasEntity);
-    	
-    	
-    	
-    	//print '<pre>';
-    	//print_r($areas);
-    	        return new ViewModel(array('form' => $form));
+    	return new ViewModel(array('contactData' => $contactData));
     }
 }

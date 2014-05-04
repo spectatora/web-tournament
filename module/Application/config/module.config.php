@@ -84,6 +84,7 @@ return array(
         'invokables' => array(
         	'auth-adapter' 	=> 'Application\Authentication\Adapter',
         	'user-entity'       => 'Application\Model\Entity\User',
+        	'options-entity' => 'Application\Model\Entity\Options'
         ),
         'shared' => array(
         		'user-entity' => false,
