@@ -1,5 +1,5 @@
 <?php
-namespace Application\Model;
+namespace Admin\Model;
 
 use Zend\Crypt\Password\PasswordInterface;
 

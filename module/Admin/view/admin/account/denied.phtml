@@ -1,0 +1,10 @@
+<?= $this->translate('You do not have access to this page.') ?>
+<a href="<?php
+
+echo $this->url('adminApplication', array(
+                                    'controller'=>'users',
+                                    'action'    => 'login',
+                                ));
+
+?>"><?= $this->translate('Log in') ?></a> with user that has the correct access.
+DENIED ADMIN LOGIN

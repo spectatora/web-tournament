@@ -71,7 +71,12 @@ class Module
     	error_reporting(E_ALL);
     	ini_set('display_errors', true);
     	
+    	$services = $event->getApplication()->getServiceManager();
+    	$auth = $services->get('auth');
+    	
     	$match = $event->getRouteMatch();
+    	
+    	
     	if(!$match) {
     		// we cannot do anything without a resolved route
     		return;
@@ -80,15 +85,15 @@ class Module
     	$action = $match->getParam('action');
     	$namespace = $match->getParam('__NAMESPACE__');
     	
+    	
     	//check to work only for the current module
     	if (strpos($namespace,__NAMESPACE__)!==0) {
     		return;
     	}
+    	 
     	
     	 
-    	$services = $event->getApplication()->getServiceManager();
-    	 
-    	$auth = $services->get('auth');
+    	
     	$acl      = $services->get('acl');
     	$config = $services->get('config');
     	
@@ -101,10 +106,10 @@ class Module
     	
     	$aclModules = $config['acl']['modules'];
     	
-    	
     	if (!empty($aclModules) && !in_array($moduleNamespace, $aclModules)) {
     		return;
     	}
+    	
     	 
     	$resourceAliases = $config['acl']['resource_aliases'];
     	if (isset($resourceAliases[$controller])) {
@@ -116,8 +121,26 @@ class Module
     	if(!$acl->hasResource($resource)) {
     		$acl->addResource($resource);
     	}
+    	
+    	print ' role ' . $role . '<br />';
+    	print ' resource ' . $resource . '<br />';
+    	print ' action ' . $action . '<br />';
+    	
     	try {
     		if($acl->isAllowed($role, $resource, $action)) {
+    			if ($action == 'denied')
+    			{
+    				return;
+    			}
+    			if (!$auth->hasIdentity()) {
+    				// Set the response code to HTTP 401: Auth Required
+    				$response = $event->getResponse();
+    				$response->setStatusCode(401);
+    			
+    				$match->setParam('controller', 'Admin\Controller\Users');
+    				$match->setParam('action', 'login');
+    			}
+    			
     			return;
     		}
     	} catch(AclException $ex) {
@@ -130,21 +153,10 @@ class Module
     	$response = $event->getResponse();
     	$response->setStatusCode(403);
     	
-    	
     	$match->setParam('controller', 'Admin\Controller\Users');
-    	$match->setParam('action', 'index');
+    	$match->setParam('action', 'login');
     	
     	
-    	/*
     	
-    	if (!$auth->hasIdentity()) {
-    		// Set the response code to HTTP 401: Auth Required
-    		$response = $event->getResponse();
-    		$response->setStatusCode(401);
-    
-    		$match->setParam('controller', 'Application\Controller\Users');
-    		$match->setParam('action', 'login');
-    	}
-    	*/
     }
 }

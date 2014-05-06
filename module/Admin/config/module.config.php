@@ -10,11 +10,27 @@
 return array(
     'router' => array(
         'routes' => array(
+        		
+        		/*
+        		'adminHome' => array(
+        				'type' => 'Zend\Mvc\Router\Http\Literal',
+        				'options' => array(
+        						'route'    => '/admin',
+        						'defaults' => array(
+        								'__NAMESPACE__' => 'Admin\Controller',
+        								'controller' => 'Admin\Controller\Users',
+        								'action'     => 'login',
+        						),
+        				),
+        		),
+        		*/
+        		
             'adminHome' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/admin',
                     'defaults' => array(
+                    	'__NAMESPACE__' => 'Admin\Controller',
                         'controller' => 'Admin\Controller\Index',
                         'action'     => 'index',
                     ),
@@ -25,32 +41,48 @@ return array(
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
             'adminApplication' => array(
-                'type'    => 'Literal',
+                'type'    => 'Segment',
                 'options' => array(
-                    'route'    => '/admin',
+                    'route'    => '/admin/[:controller[/:action]]',
+                    'constraints' => array(
+                    		'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    		'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'Admin\Controller',
-                        'controller'    => 'Index',
+                        'controller'    => 'Admin\Controller\Index',
                         'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
                     ),
                 ),
             ),
         ),
+    ),
+    'service_manager' => array(
+    		'abstract_factories' => array(
+    				'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+    				'Zend\Log\LoggerAbstractServiceFactory',
+    		),
+    		'aliases' => array(
+    				'translator' => 'MvcTranslator',
+    		),
+    		'factories' => array(
+    				'auth' 	       => 'Admin\Service\Factory\Authentication',
+    				'password-adapter' => 'Admin\Service\Factory\PasswordAdapter',
+    				'entity-manager'   => 'Admin\Service\Factory\EntityManager',
+    				'acl' => 'Application\Service\Factory\Acl',
+    				'user'	       => 'Admin\Service\Factory\User',
+    		),
+    		'initializers' => array (
+    				'Admin\Service\Initializer\Password'
+    		),
+    		'invokables' => array(
+    				'auth-adapter' 	=> 'Admin\Authentication\Adapter',
+    				'user-entity'       => 'Admin\Model\Entity\User',
+    				'options-entity' => 'Application\Model\Entity\Options'
+    		),
+    		'shared' => array(
+    				'user-entity' => false,
+    		),
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -64,7 +96,9 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Admin\Controller\Index' => 'Admin\Controller\IndexController'
+            'Admin\Controller\Index' => 'Admin\Controller\IndexController',
+            'Admin\Controller\Users' => 'Admin\Controller\UsersController',
+            'Admin\Controller\Account' => 'Admin\Controller\AccountController'
         ),
     ),
    'view_manager' => array(
@@ -93,7 +127,16 @@ return array(
     'controllers' => array(
     		'invokables' => array(
     				'Admin\Controller\Index' => 'Admin\Controller\IndexController',
-    				'Admin\Controller\Users' => 'Admin\Controller\UsersController'
+    				'Admin\Controller\Users' => 'Admin\Controller\UsersController',
+    			    'Admin\Controller\Account' => 'Admin\Controller\AccountController'
+    		),
+    ),
+    'doctrine' => array(
+    		'entity_path' => array (
+    				__DIR__ . '/../src/Admin/Model/Entity/',
+    		),
+    		'initializers' => array(
+    				'Admin\Service\Initializer\Password'
     		),
     ),
     'acl' => array(
@@ -112,7 +155,7 @@ return array(
     		'allow' => array (
     				// array('role', 'resource', array('permission-1', 'permission-2', ...)),
     				array('guest', 'users', 'login'),
-    				array('guest', 'account', 'register'),
+    				array('guest', 'users', 'denied'),
     				array('member', 'account', array('me')), // the member can only see his account
     				array('member', 'users', 'logout'), // the member can log out
     				array('admin', null, null), // the admin can do anything with the accounts
@@ -127,7 +170,9 @@ return array(
     				'member_role' => 'member',
     		),
     		'resource_aliases' => array (
-    				'Application\Controller\Users' => 'users',
+    				'Admin\Controller\Users' => 'users',
+    				'Admin\Controller\Index' => 'admin',
+    				'Admin\Controller\Account' => 'account'
     		),
     
     		// List of modules to apply the ACL. This is how we can specify if we have to protect the pages in our current module.

@@ -47,6 +47,7 @@ class Module
     		// we cannot do anything without a resolved route
     		return;
     	}
+    	
     	$controller = $match->getParam('controller');
     	$action = $match->getParam('action');
     	$namespace = $match->getParam('__NAMESPACE__');
@@ -56,6 +57,7 @@ class Module
     	if (strpos($namespace,__NAMESPACE__)!==0) {
     		return;
     	}
+    	
     	 
     	$services = $event->getApplication()->getServiceManager();
     	 
@@ -87,6 +89,7 @@ class Module
     		$acl->addResource($resource);
     	}
     	
+    	
     	try {
     		if($acl->isAllowed($role, $resource, $action)) {
     			return;
@@ -94,7 +97,6 @@ class Module
     	} catch(AclException $ex) {
     		print 'ninja';die;
     	}
-    	
     	
     	$response = $event->getResponse();
     	$response->setStatusCode(403);

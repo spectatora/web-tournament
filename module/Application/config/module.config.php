@@ -1,5 +1,4 @@
 <?php
-use Application\Authentication\Adapter;
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -26,6 +25,7 @@ return array(
             		'options' => array(
             				'route'    => '/deniedLogin',
             				'defaults' => array(
+            						'__NAMESPACE__' => 'Application\Controller',
             						'controller' => 'Application\Controller\Account',
             						'action'     => 'denied',
             				),
@@ -72,18 +72,18 @@ return array(
             'translator' => 'MvcTranslator',
         ),
         'factories' => array(
-        	'auth' 	       => 'Application\Service\Factory\Authentication',
-        	'password-adapter' => 'Application\Service\Factory\PasswordAdapter',
+        	'auth' 	       => 'Admin\Service\Factory\Authentication',
+        	'password-adapter' => 'Admin\Service\Factory\PasswordAdapter',
         	'entity-manager'   => 'Application\Service\Factory\EntityManager',
         	'acl' => 'Application\Service\Factory\Acl',
-        	'user'	       => 'Application\Service\Factory\User',
+        	'user'	       => 'Admin\Service\Factory\User',
         ),
         'initializers' => array (
-        		'Application\Service\Initializer\Password'
+        		'Admin\Service\Initializer\Password'
         ),
         'invokables' => array(
-        	'auth-adapter' 	=> 'Application\Authentication\Adapter',
-        	'user-entity'       => 'Application\Model\Entity\User',
+        	'auth-adapter' 	=> 'Admin\Authentication\Adapter',
+        	'user-entity'       => 'Admin\Model\Entity\User',
         	'options-entity' => 'Application\Model\Entity\Options'
         ),
         'shared' => array(
@@ -103,8 +103,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Users' => 'Application\Controller\UsersController',
-            'Application\Controller\Account' => 'Application\Controller\AccountController'
+            'Application\Controller\Account' => 'Application\Controller\AccountController',
         ),
     ),
     'view_manager' => array(
@@ -135,7 +134,7 @@ return array(
 	                __DIR__ . '/../src/Application/Model/Entity/',
 	        ),
 	        'initializers' => array(
-	        		'Application\Service\Initializer\Password'
+	        		'Admin\Service\Initializer\Password'
 	        ),
     ),
     'db' => array(
@@ -167,6 +166,7 @@ return array(
     				// array('role', 'resource', array('permission-1', 'permission-2', ...)),
     				array('guest', 'users', 'login'),
     				array('guest', 'account', 'register'),
+    				array('guest', 'account', 'denied'),
     				array('member', 'account', array('me')), // the member can only see his account
     				array('member', 'users', 'logout'), // the member can log out
     				array('admin', null, null), // the admin can do anything with the accounts

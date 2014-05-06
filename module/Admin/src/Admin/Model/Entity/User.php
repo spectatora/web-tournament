@@ -1,8 +1,8 @@
 <?php
-namespace Application\Model\Entity;
+namespace Admin\Model\Entity;
 
 use Zend\Form\Annotation;
-use Application\Model\PasswordAwareInterface;
+use Admin\Model\PasswordAwareInterface;
 use Zend\Crypt\Password\PasswordInterface;
 
 /**

@@ -1,9 +1,9 @@
 <?php
-namespace Application\Service\Initializer;
+namespace Admin\Service\Initializer;
 
 use Zend\ServiceManager\InitializerInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Application\Model\PasswordAwareInterface;
+use Admin\Model\PasswordAwareInterface;
 
 class Password implements InitializerInterface
 {

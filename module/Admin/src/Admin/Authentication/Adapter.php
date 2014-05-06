@@ -1,5 +1,5 @@
 <?php
-namespace Application\Authentication;
+namespace Admin\Authentication;
 
 use Zend\Authentication\Adapter\AbstractAdapter;
 use Zend\Authentication\Result;

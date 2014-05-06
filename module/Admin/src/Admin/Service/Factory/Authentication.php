@@ -1,5 +1,5 @@
 <?php
-namespace Application\Service\Factory;
+namespace Admin\Service\Factory;
 
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\FactoryInterface;
