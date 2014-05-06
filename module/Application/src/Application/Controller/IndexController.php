@@ -12,14 +12,15 @@ namespace Application\Controller;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Application\Form\RegisterParticipant as RegisterParticipantForm;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-    	//error_reporting(E_ALL);
-    	//ini_set('display_errors', true);
+    	error_reporting(E_ALL);
+    	ini_set('display_errors', true);
     	
     	$contactData = array(
     		"address" => 'гр. Велико Търново, ул. "Арх. Георги Козаров" № 3',
@@ -44,7 +45,14 @@ class IndexController extends AbstractActionController
     	);
     	
     	
+    
     	$entityManager = $this->serviceLocator->get('entity-manager');
+    	
+    	
+    	$form = new RegisterParticipantForm($entityManager);
+    	
+    	 
+    	
     	//$userEntityClassName = get_class($this->serviceLocator->get('user-entity'));
     	$optionsEntityClassName = get_class($this->serviceLocator->get('options-entity'));
     	
@@ -53,6 +61,6 @@ class IndexController extends AbstractActionController
     	
     	$contactData = $repository->findOneBy(array('optionName' => 'contactData'));
     	
-    	return new ViewModel(array('contactData' => $contactData));
+    	return new ViewModel(array('contactData' => $contactData, 'form' => $form));
     }
 }

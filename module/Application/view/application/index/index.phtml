@@ -9,22 +9,18 @@
 		<?php
 		var_dump(json_decode($this->contactData->getOptionValue(),true));
 		
-		/*
+		error_reporting(E_ALL);
+		ini_set('display_errors', true);
+		
 		$form = $this->form;
 		
-		$form->setAttribute('action', $this->url(
-				'Application/default',
-				array(
-						'action'     => 'add',
-						'controller' => 'student'
-				)
-		));
+		
 		$form->prepare();
 		
 		echo $this->form()->openTag($form);
 		echo $this->formCollection($form);
 		echo $this->form()->closeTag();
-		*/
+		
 		?>
 	</div>
 </div>
