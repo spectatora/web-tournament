@@ -4,6 +4,7 @@ namespace Application\Form;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Zend\Form\Form;
+use Zend\Form\Element;
 
 class RegisterParticipant extends Form implements ObjectManagerAwareInterface
 {
@@ -13,7 +14,7 @@ class RegisterParticipant extends Form implements ObjectManagerAwareInterface
 	{
 		$this->setObjectManager($objectManager);
 	
-		parent::__construct('db-adapter-form');
+		parent::__construct('register-participant-form');
 	
 		
 		
@@ -107,6 +108,55 @@ class RegisterParticipant extends Form implements ObjectManagerAwareInterface
 						'type'  => 'text',
 				),
 		));
+		
+		$this->add(array(
+				'type' => 'Zend\Form\Element\Email',
+				'name' => 'email',
+				'options' => array(
+						'label' => 'Email Address'
+				),
+		));
+		
+		$this->add(array(
+				'name' => 'phone',
+				'options' => array(
+						'label' => 'Телефон',
+				),
+				'attributes' => array(
+						'type'  => 'text',
+				),
+		));
+		
+		$this->add(array(
+				'name' => 'teacher',
+				'options' => array(
+						'label' => 'Преподавател по математика (име, фамилия)',
+				),
+				'attributes' => array(
+						'type'  => 'text',
+				),
+		));
+		
+		/*
+		$this->add(array(
+				'type' => 'Zend\Form\Element\Captcha',
+				'name' => 'captcha',
+				'options' => array(
+						'label' => 'Please verify you are human',
+				),
+		));
+		*/
+		
+		$this->add(new Element\Csrf('security'));
+		
+		$this->add(array(
+            'name' => 'submitParticipant',
+            'attributes' => array(
+                'type'  => 'submit',
+                'value' => 'Регистрирай',
+                'id' => 'submitbutton',
+            ),
+        ));
 	}
 	
 	public function setObjectManager(ObjectManager $objectManager)
