@@ -39,6 +39,7 @@ class Contact extends Form
 				),
 				'attributes' => array(
 						'type'  => 'text',
+						'required' => true
 				),
 		));
 		
