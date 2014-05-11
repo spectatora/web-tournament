@@ -31,6 +31,20 @@ return array(
             				),
             		),
              ),
+             'contactRoute' => array(
+             	'type' => 'Segment',
+             	'options' => array(
+             			'route'    => '/contact[/:action]',
+             			'constraints' => array(
+             					'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+             			),
+             			'defaults' => array(
+	             			'__NAMESPACE__' => 'Application\Controller',
+	             			'controller' => 'Application\Controller\Contact',
+	             			'action'     => 'index',
+             			),
+             	),
+             ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -104,6 +118,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Account' => 'Application\Controller\AccountController',
+            'Application\Controller\Contact' => 'Application\Controller\ContactController',
         ),
     ),
     'view_manager' => array(
@@ -161,12 +176,15 @@ return array(
     				// resource -> single parent
     				'account' => null,
     				'users'     => null,
+    				'contact' => null,
     		),
     		'allow' => array (
     				// array('role', 'resource', array('permission-1', 'permission-2', ...)),
     				array('guest', 'users', 'login'),
     				array('guest', 'account', 'register'),
     				array('guest', 'account', 'denied'),
+    				array('guest', 'contact', 'index'),
+    				array('guest', 'contact', 'send-question'),
     				array('member', 'account', array('me')), // the member can only see his account
     				array('member', 'users', 'logout'), // the member can log out
     				array('admin', null, null), // the admin can do anything with the accounts

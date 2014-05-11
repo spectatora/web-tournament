@@ -101,8 +101,8 @@ class Module
     	$response = $event->getResponse();
     	$response->setStatusCode(403);
     	
-    	$match->setParam('controller', 'Application\Controller\Users');
-    	$match->setParam('action', 'denied');
+    	$match->setParam('controller', 'Application\Controller\Index');
+    	$match->setParam('action', 'index');
     	
     	/*
     	
