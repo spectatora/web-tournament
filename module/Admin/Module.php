@@ -62,6 +62,8 @@ class Module
     	
     	$match = $event->getRouteMatch();
     	
+    	print_r($match);
+    	
     	
     	if(!$match) {
     		// we cannot do anything without a resolved route

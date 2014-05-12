@@ -109,6 +109,7 @@ return array(
         'exception_template'       => 'admin/error/index',
         'template_map' => array(
             'admin/layout'           => __DIR__ . '/../view/layout/adminlayout.phtml',
+            'admin/loginlayout' => __DIR__ . '/../view/layout/loginlayout.phtml',
             'admin/index/index' => __DIR__ . '/../view/admin/index/index.phtml',
             'admin/error/404'               => __DIR__ . '/../view/error/admin-404.phtml',
             'admin/error/index'             => __DIR__ . '/../view/error/admin-index.phtml',

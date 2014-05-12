@@ -26,6 +26,9 @@ class UsersController extends AbstractActionController
 	{
 		error_reporting(E_ALL);
 		ini_set('display_errors', true);
+		
+		
+		$this->layout('admin/loginlayout');
 		 
 		if (!$this->getRequest()->isPost()) {
 			// just show the login form
