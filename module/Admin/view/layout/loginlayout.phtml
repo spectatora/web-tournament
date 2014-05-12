@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Admin login'))->setSeparator(' - ')->setAutoEscape(false) ?>
 
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -13,25 +13,24 @@
 
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                        ->prependStylesheet($this->basePath() . '/css/style.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+                        ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap.min.css')
+                        ->prependStylesheet($this->basePath() . '/bootstrap/css/bootstrap-responsive.min.css')
+                        ->prependStylesheet($this->basePath() . '/assets/styles.css') ?>
 
         <!-- Scripts -->
         <?php echo $this->headScript()
-            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
-            ->prependFile($this->basePath() . '/js/jquery.min.js')
-            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/vendor/modernizr-2.6.2-respond-1.1.0.min.js')
+            ->prependFile($this->basePath() . '/vendors/jquery-1.9.1.min.js')
+            ->prependFile($this->basePath() . '/bootstrap/js/bootstrap.min.js')
         ; ?>
 
     </head>
-    <body>
-    	<hr /><br />
-		<h1>LOGIN DIFFERENT LAYOUT</h1>
-		<br /><hr /><Br /><hr >
-		<h3>sub login layout</h3>
+    <body id="login">
+    <div class="container">
 		<?php echo $this->content; ?>
-		<hr /><br />
-    </body>
+    </div> <!-- /container -->
+    <script src="vendors/jquery-1.9.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+		
 </html>
