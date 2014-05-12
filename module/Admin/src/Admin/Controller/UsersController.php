@@ -73,6 +73,8 @@ class UsersController extends AbstractActionController
 	
 	public function deniedAction()
 	{
+		$this->layout('admin/loginlayout');
+		
 		return array();
 	}
 }
