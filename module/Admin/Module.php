@@ -107,9 +107,11 @@ class Module
     		$acl->addResource($resource);
     	}
     	
+    	/*
     	print ' role ' . $role . '<br />';
     	print ' resource ' . $resource . '<br />';
     	print ' action ' . $action . '<br />';
+    	*/
     	
     	try {
     		if($acl->isAllowed($role, $resource, $action)) {
